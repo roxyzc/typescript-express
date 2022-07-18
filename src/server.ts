@@ -3,7 +3,8 @@ import http from 'http';
 import mongoose from 'mongoose';
 import { config } from './config/config';
 import Logging from './library/Logging';
-import router from './routes/Author';
+import routerAuthor from './routes/Author';
+import routerBook from './routes/Book';
 
 const app = express();
 
@@ -50,7 +51,8 @@ const StartServer = () => {
     });
 
     // Routes
-    app.use('/authors', router);
+    app.use('/authors', routerAuthor);
+    app.use('/books', routerBook);
 
     // HealthCheck
     app.get('/ping', (req, res, next) => res.status(200).json({ message: 'PONG' }));

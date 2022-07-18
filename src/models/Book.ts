@@ -14,13 +14,13 @@ const BookSchema: Schema = new Schema(
             required: true
         },
         author: {
-            type: String,
-            required: true
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: 'Author'
         }
     },
     {
-        timestamps: true,
-        versionKey: true
+        timestamps: true
     }
 );
 

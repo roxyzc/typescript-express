@@ -22,7 +22,7 @@ const readBook = async (req: Request, res: Response, next: NextFunction) => {
     const bookId = req.params.bookId;
 
     try {
-        const book = await Book.findById(bookId);
+        const book = await Book.findById(bookId).populate('author').select('-__v');
         return book ? res.status(200).json({ book }) : res.status(404).json({ message: 'Not found' });
     } catch (error) {
         return res.status(500).json(error);
@@ -30,8 +30,8 @@ const readBook = async (req: Request, res: Response, next: NextFunction) => {
 };
 const readAllBook = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const books = await Book.find();
-        return res.status(200).json({ books });
+        const book = await Book.find().populate('author').select('-__v');
+        return book ? res.status(200).json({ book }) : res.status(404).json({ message: 'Not found' });
     } catch (error) {
         return res.status(500).json(error);
     }
@@ -45,7 +45,7 @@ const updateBook = async (req: Request, res: Response, next: NextFunction) => {
             book.set(req.body);
 
             try {
-                const book_1 = await book.save();
+                const book_1 = await (await book.save()).populate('author');
                 return res.status(200).json({ book_1 });
             } catch (error) {
                 return res.status(400).json({ error });

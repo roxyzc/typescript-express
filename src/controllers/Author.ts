@@ -44,7 +44,7 @@ const updateAuthor = async (req: Request, res: Response, next: NextFunction) => 
             author.set(req.body);
 
             try {
-                const author_1 = await author.save();
+                const author_1 = await (await author.save()).populate('author');
                 return res.status(200).json({ author_1 });
             } catch (error) {
                 return res.status(400).json({ error });
